@@ -1,7 +1,7 @@
 package jp.ac.it_college.std.s21009.news_manager.domain.repository
 
-import jp.ac.it_college.std.s21009.news_manager.database.record.NewsRecord
+import jp.ac.it_college.std.s21009.news_manager.database.record.BundledNewsRecord
 
 interface NewsRepository {
-    fun findAll() : List<NewsRecord>
+    fun findAll() : List<BundledNewsRecord>
 }
