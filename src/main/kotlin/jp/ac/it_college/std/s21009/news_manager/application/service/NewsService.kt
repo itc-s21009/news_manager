@@ -11,4 +11,8 @@ class NewsService(
     fun getList() : List<BundledNewsRecord> {
         return newsRepository.findAll()
     }
+
+    fun getById(id: Long) : BundledNewsRecord {
+        return newsRepository.findById(id)
+    }
 }

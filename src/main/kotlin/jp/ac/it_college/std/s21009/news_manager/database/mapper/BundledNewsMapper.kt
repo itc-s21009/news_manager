@@ -3,6 +3,7 @@ package jp.ac.it_college.std.s21009.news_manager.database.mapper
 import jp.ac.it_college.std.s21009.news_manager.database.record.BundledNewsRecord
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Result
+import org.apache.ibatis.annotations.ResultMap
 import org.apache.ibatis.annotations.Results
 import org.apache.ibatis.annotations.SelectProvider
 import org.apache.ibatis.type.JdbcType
@@ -22,4 +23,9 @@ interface BundledNewsMapper {
         Result(column="view_name", property="postBy", jdbcType=JdbcType.VARCHAR)
     ])
     fun selectMany(selectStatement: SelectStatementProvider): List<BundledNewsRecord>
+
+    @SelectProvider(type=SqlProviderAdapter::class, method="select")
+    @ResultMap("BundledNewsRecordResult")
+    fun selectOne(selectStatement: SelectStatementProvider): BundledNewsRecord
+
 }

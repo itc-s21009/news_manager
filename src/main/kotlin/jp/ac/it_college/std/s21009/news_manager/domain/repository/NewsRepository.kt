@@ -4,4 +4,5 @@ import jp.ac.it_college.std.s21009.news_manager.database.record.BundledNewsRecor
 
 interface NewsRepository {
     fun findAll() : List<BundledNewsRecord>
+    fun findById(id: Long) : BundledNewsRecord
 }

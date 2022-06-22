@@ -8,6 +8,7 @@ import org.mybatis.dynamic.sql.SqlBuilder.equalTo
 import org.mybatis.dynamic.sql.SqlBuilder.select
 import org.mybatis.dynamic.sql.SqlTable
 import org.mybatis.dynamic.sql.render.RenderingStrategies
+import org.mybatis.dynamic.sql.util.kotlin.elements.isEqualTo
 
 private val news = SqlTable.of("news")
 private val users = SqlTable.of("users")
@@ -30,4 +31,14 @@ fun BundledNewsMapper.select(): List<BundledNewsRecord> {
         .leftJoin(users).on(News.userId, equalTo(Users.id))
         .build().render(RenderingStrategies.MYBATIS3)
     return selectMany(selectStatement)
+}
+
+fun BundledNewsMapper.selectByPrimaryKey(id: Long): BundledNewsRecord {
+    val selectStatement = select(columnList)
+        .from(news)
+        .leftJoin(category).on(News.categoryId, equalTo(Category.id))
+        .leftJoin(users).on(News.userId, equalTo(Users.id))
+        .where(News.id, isEqualTo(id))
+        .build().render(RenderingStrategies.MYBATIS3)
+    return selectOne(selectStatement)
 }
