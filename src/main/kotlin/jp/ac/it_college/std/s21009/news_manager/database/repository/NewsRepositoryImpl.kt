@@ -11,11 +11,11 @@ import org.springframework.stereotype.Repository
 class NewsRepositoryImpl(
     private val bundledNewsMapper: BundledNewsMapper
 ) : NewsRepository {
-    override fun findAll(): List<BundledNewsRecord> {
-        return bundledNewsMapper.select()
+    override fun findAll(includeUnpublished: Boolean): List<BundledNewsRecord> {
+        return bundledNewsMapper.select(includeUnpublished)
     }
 
-    override fun findById(id: Long): BundledNewsRecord {
-        return bundledNewsMapper.selectByPrimaryKey(id)
+    override fun findById(id: Long, includeUnpublished: Boolean): BundledNewsRecord {
+        return bundledNewsMapper.selectByPrimaryKey(id, includeUnpublished)
     }
 }

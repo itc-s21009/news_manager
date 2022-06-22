@@ -11,7 +11,6 @@ class NewsManagerUserDetailsService(
     private val authenticationService: AuthenticationService
 ) : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails? {
-        println("User: 「$username」")
         val user = authenticationService.findUser(username)
         return user?.let { NewsManagerUserDetails(it) }
     }
