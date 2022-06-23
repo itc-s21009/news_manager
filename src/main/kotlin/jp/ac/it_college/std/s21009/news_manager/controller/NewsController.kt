@@ -5,6 +5,7 @@ import jp.ac.it_college.std.s21009.news_manager.application.service.NewsService
 import jp.ac.it_college.std.s21009.news_manager.database.record.BundledNewsRecord
 import jp.ac.it_college.std.s21009.news_manager.database.record.NewsRecord
 import jp.ac.it_college.std.s21009.news_manager.domain.enum.RoleType
+import jp.ac.it_college.std.s21009.news_manager.domain.repository.CategoryRepository
 import jp.ac.it_college.std.s21009.news_manager.presentation.form.RegisterNewsRequest
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
@@ -13,6 +14,7 @@ import java.time.LocalDateTime
 @RestController
 class NewsController(
     private val newsService: NewsService,
+    private val categoryRepository: CategoryRepository
 ) {
 
     @RequestMapping("/news")
@@ -29,6 +31,7 @@ class NewsController(
     @PostMapping("/post")
     fun register(@RequestBody request: RegisterNewsRequest, authentication: Authentication) {
         val principal = authentication.principal as NewsManagerUserDetails
+        categoryRepository.findById(request.categoryId) ?: throw IllegalArgumentException("存在しないカテゴリID: ${request.categoryId}")
         newsService.register(
             NewsRecord(
                 0,

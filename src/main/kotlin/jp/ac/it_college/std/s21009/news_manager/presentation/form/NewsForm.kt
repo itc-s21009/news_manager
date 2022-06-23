@@ -6,5 +6,5 @@ data class RegisterNewsRequest(
     val title: String,
     val body: String,
     val categoryId: Long,
-    val publishAt: LocalDateTime
+    val publishAt: LocalDateTime = LocalDateTime.now()
 )

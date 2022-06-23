@@ -4,15 +4,11 @@ import jp.ac.it_college.std.s21009.news_manager.database.mapper.NewsDynamicSqlSu
 import jp.ac.it_college.std.s21009.news_manager.database.mapper.CategoryDynamicSqlSupport.Category
 import jp.ac.it_college.std.s21009.news_manager.database.mapper.UsersDynamicSqlSupport.Users
 import jp.ac.it_college.std.s21009.news_manager.database.record.BundledNewsRecord
+import jp.ac.it_college.std.s21009.news_manager.domain.enum.NewsManagerTables
 import org.mybatis.dynamic.sql.SqlBuilder.*
-import org.mybatis.dynamic.sql.SqlTable
 import org.mybatis.dynamic.sql.render.RenderingStrategies
 import org.mybatis.dynamic.sql.util.kotlin.elements.isEqualTo
 import java.time.LocalDateTime
-
-private val news = SqlTable.of("news")
-private val users = SqlTable.of("users")
-private val category = SqlTable.of("category")
 
 private val columnList = listOf(
     News.id,
@@ -26,9 +22,9 @@ private val columnList = listOf(
 
 fun BundledNewsMapper.select(includeUnpublished: Boolean): List<BundledNewsRecord> {
     val selectStatement = select(columnList)
-        .from(news)
-        .leftJoin(category).on(News.categoryId, equalTo(Category.id))
-        .leftJoin(users).on(News.userId, equalTo(Users.id))
+        .from(NewsManagerTables.NEWS)
+        .leftJoin(NewsManagerTables.CATEGORY).on(News.categoryId, equalTo(Category.id))
+        .leftJoin(NewsManagerTables.USERS).on(News.userId, equalTo(Users.id))
     if (!includeUnpublished)
         selectStatement.where(News.publishAt, isLessThan(LocalDateTime.now()))
 
@@ -37,9 +33,9 @@ fun BundledNewsMapper.select(includeUnpublished: Boolean): List<BundledNewsRecor
 
 fun BundledNewsMapper.selectByPrimaryKey(id: Long, includeUnpublished: Boolean): BundledNewsRecord {
     val selectStatement = select(columnList)
-        .from(news)
-        .leftJoin(category).on(News.categoryId, equalTo(Category.id))
-        .leftJoin(users).on(News.userId, equalTo(Users.id))
+        .from(NewsManagerTables.NEWS)
+        .leftJoin(NewsManagerTables.CATEGORY).on(News.categoryId, equalTo(Category.id))
+        .leftJoin(NewsManagerTables.USERS).on(News.userId, equalTo(Users.id))
         .where(News.id, isEqualTo(id))
     if (!includeUnpublished)
         selectStatement.where(News.publishAt, isLessThan(LocalDateTime.now()))
