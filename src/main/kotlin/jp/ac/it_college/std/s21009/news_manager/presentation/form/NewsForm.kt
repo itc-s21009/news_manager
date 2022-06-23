@@ -15,3 +15,7 @@ data class RegisterUserRequest(
     val viewName: String = username,
     val roleType: RoleType = RoleType.USER
 )
+
+data class RegisterCategoryRequest(
+    val name: String
+)

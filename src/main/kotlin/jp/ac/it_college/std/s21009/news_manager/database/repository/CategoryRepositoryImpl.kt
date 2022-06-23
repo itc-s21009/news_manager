@@ -2,6 +2,7 @@ package jp.ac.it_college.std.s21009.news_manager.database.repository
 
 import jp.ac.it_college.std.s21009.news_manager.database.mapper.CategoryDynamicSqlSupport.Category
 import jp.ac.it_college.std.s21009.news_manager.database.mapper.CategoryMapper
+import jp.ac.it_college.std.s21009.news_manager.database.mapper.insert
 import jp.ac.it_college.std.s21009.news_manager.database.record.CategoryRecord
 import jp.ac.it_college.std.s21009.news_manager.domain.enum.NewsManagerTables
 import jp.ac.it_college.std.s21009.news_manager.domain.repository.CategoryRepository
@@ -35,5 +36,17 @@ class CategoryRepositoryImpl(
             .build()
             .render(RenderingStrategies.MYBATIS3)
         return categoryMapper.selectOne(selectStatement)
+    }
+    override fun findByName(name: String): CategoryRecord? {
+        val selectStatement = select(columnList)
+            .from(NewsManagerTables.CATEGORY)
+            .where(Category.name, isEqualTo(name))
+            .build()
+            .render(RenderingStrategies.MYBATIS3)
+        return categoryMapper.selectOne(selectStatement)
+    }
+
+    override fun register(category: CategoryRecord) {
+        categoryMapper.insert(category)
     }
 }
