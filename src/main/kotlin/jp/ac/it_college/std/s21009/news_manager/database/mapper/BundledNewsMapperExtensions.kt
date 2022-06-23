@@ -20,13 +20,14 @@ private val columnList = listOf(
     Users.viewName
 )
 
-fun BundledNewsMapper.select(includeUnpublished: Boolean): List<BundledNewsRecord> {
+fun BundledNewsMapper.select(includeUnpublished: Boolean, page: Long): List<BundledNewsRecord> {
     val selectStatement = select(columnList)
         .from(NewsManagerTables.NEWS)
         .leftJoin(NewsManagerTables.CATEGORY).on(News.categoryId, equalTo(Category.id))
         .leftJoin(NewsManagerTables.USERS).on(News.userId, equalTo(Users.id))
     if (!includeUnpublished)
         selectStatement.where(News.publishAt, isLessThan(LocalDateTime.now()))
+    selectStatement.limit(10).offset((page - 1) * 10)
 
     return selectMany(selectStatement.build().render(RenderingStrategies.MYBATIS3))
 }

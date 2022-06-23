@@ -11,8 +11,8 @@ class NewsRepositoryImpl(
     private val bundledNewsMapper: BundledNewsMapper,
     private val newsMapper: NewsMapper
 ) : NewsRepository {
-    override fun findAll(includeUnpublished: Boolean): List<BundledNewsRecord> {
-        return bundledNewsMapper.select(includeUnpublished)
+    override fun findAll(includeUnpublished: Boolean, page: Long): List<BundledNewsRecord> {
+        return bundledNewsMapper.select(includeUnpublished, page)
     }
 
     override fun findById(id: Long, includeUnpublished: Boolean): BundledNewsRecord {

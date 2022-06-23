@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service
 class NewsService(
     private val newsRepository: NewsRepository
 ) {
-    fun getList(includeUnpublished: Boolean) : List<BundledNewsRecord> {
-        return newsRepository.findAll(includeUnpublished)
+    fun getList(includeUnpublished: Boolean, page: Long) : List<BundledNewsRecord> {
+        return newsRepository.findAll(includeUnpublished, page)
     }
 
     fun getById(id: Long, includeUnpublished: Boolean) : BundledNewsRecord {

@@ -18,10 +18,10 @@ class NewsController(
 ) {
 
     @RequestMapping("/news")
-    fun getNews(authentication: Authentication?): List<BundledNewsRecord> {
+    fun getNews(@RequestParam("page", name = "page", required = false, defaultValue = "1") page: Long, authentication: Authentication?): List<BundledNewsRecord> {
         val isAdmin =
             authentication?.authorities?.map { RoleType.valueOf(it.authority) }?.contains(RoleType.ADMIN) ?: false
-        return newsService.getList(isAdmin)
+        return newsService.getList(isAdmin, page)
     }
 
     @GetMapping("/news/{id}")
