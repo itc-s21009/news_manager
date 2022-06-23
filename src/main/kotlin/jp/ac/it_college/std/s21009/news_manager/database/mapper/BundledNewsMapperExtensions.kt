@@ -4,7 +4,6 @@ import jp.ac.it_college.std.s21009.news_manager.database.mapper.NewsDynamicSqlSu
 import jp.ac.it_college.std.s21009.news_manager.database.mapper.CategoryDynamicSqlSupport.Category
 import jp.ac.it_college.std.s21009.news_manager.database.mapper.UsersDynamicSqlSupport.Users
 import jp.ac.it_college.std.s21009.news_manager.database.record.BundledNewsRecord
-import jp.ac.it_college.std.s21009.news_manager.domain.enum.NewsManagerTables
 import org.mybatis.dynamic.sql.SqlBuilder.*
 import org.mybatis.dynamic.sql.render.RenderingStrategies
 import org.mybatis.dynamic.sql.util.kotlin.elements.isEqualTo
@@ -22,9 +21,9 @@ private val columnList = listOf(
 
 fun BundledNewsMapper.select(includeUnpublished: Boolean, page: Long): List<BundledNewsRecord> {
     val selectStatement = select(columnList)
-        .from(NewsManagerTables.NEWS)
-        .leftJoin(NewsManagerTables.CATEGORY).on(News.categoryId, equalTo(Category.id))
-        .leftJoin(NewsManagerTables.USERS).on(News.userId, equalTo(Users.id))
+        .from(News)
+        .leftJoin(Category).on(News.categoryId, equalTo(Category.id))
+        .leftJoin(Users).on(News.userId, equalTo(Users.id))
     if (!includeUnpublished)
         selectStatement.where(News.publishAt, isLessThan(LocalDateTime.now()))
     selectStatement.limit(10).offset((page - 1) * 10)
@@ -34,9 +33,9 @@ fun BundledNewsMapper.select(includeUnpublished: Boolean, page: Long): List<Bund
 
 fun BundledNewsMapper.selectByPrimaryKey(id: Long, includeUnpublished: Boolean): BundledNewsRecord {
     val selectStatement = select(columnList)
-        .from(NewsManagerTables.NEWS)
-        .leftJoin(NewsManagerTables.CATEGORY).on(News.categoryId, equalTo(Category.id))
-        .leftJoin(NewsManagerTables.USERS).on(News.userId, equalTo(Users.id))
+        .from(News)
+        .leftJoin(Category).on(News.categoryId, equalTo(Category.id))
+        .leftJoin(Users).on(News.userId, equalTo(Users.id))
         .where(News.id, isEqualTo(id))
     if (!includeUnpublished)
         selectStatement.where(News.publishAt, isLessThan(LocalDateTime.now()))

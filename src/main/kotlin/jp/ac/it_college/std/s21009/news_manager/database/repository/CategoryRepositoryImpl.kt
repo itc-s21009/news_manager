@@ -5,7 +5,6 @@ import jp.ac.it_college.std.s21009.news_manager.database.mapper.CategoryMapper
 import jp.ac.it_college.std.s21009.news_manager.database.mapper.deleteByPrimaryKey
 import jp.ac.it_college.std.s21009.news_manager.database.mapper.insert
 import jp.ac.it_college.std.s21009.news_manager.database.record.CategoryRecord
-import jp.ac.it_college.std.s21009.news_manager.domain.enum.NewsManagerTables
 import jp.ac.it_college.std.s21009.news_manager.domain.repository.CategoryRepository
 import org.mybatis.dynamic.sql.SqlBuilder.*
 import org.mybatis.dynamic.sql.render.RenderingStrategies
@@ -23,7 +22,7 @@ class CategoryRepositoryImpl(
 
     override fun findAll(): List<CategoryRecord> {
         val selectStatement = select(columnList)
-            .from(NewsManagerTables.CATEGORY)
+            .from(Category)
             .build()
             .render(RenderingStrategies.MYBATIS3)
         return categoryMapper.selectMany(selectStatement)
@@ -31,7 +30,7 @@ class CategoryRepositoryImpl(
 
     override fun findById(id: Long): CategoryRecord? {
         val selectStatement = select(columnList)
-            .from(NewsManagerTables.CATEGORY)
+            .from(Category)
             .where(Category.id, isEqualTo(id))
             .build()
             .render(RenderingStrategies.MYBATIS3)
@@ -39,7 +38,7 @@ class CategoryRepositoryImpl(
     }
     override fun findByName(name: String): CategoryRecord? {
         val selectStatement = select(columnList)
-            .from(NewsManagerTables.CATEGORY)
+            .from(Category)
             .where(Category.name, isEqualTo(name))
             .build()
             .render(RenderingStrategies.MYBATIS3)
@@ -55,7 +54,7 @@ class CategoryRepositoryImpl(
     }
 
     override fun updateName(id: Long, name: String) {
-        val updateStatement = update(NewsManagerTables.CATEGORY)
+        val updateStatement = update(Category)
             .set(Category.name).equalTo(name)
             .where(Category.id, isEqualTo(id))
             .build()
