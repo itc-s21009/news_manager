@@ -2,6 +2,7 @@ package jp.ac.it_college.std.s21009.news_manager.database.repository
 
 import jp.ac.it_college.std.s21009.news_manager.database.mapper.CategoryDynamicSqlSupport.Category
 import jp.ac.it_college.std.s21009.news_manager.database.mapper.CategoryMapper
+import jp.ac.it_college.std.s21009.news_manager.database.mapper.deleteByPrimaryKey
 import jp.ac.it_college.std.s21009.news_manager.database.mapper.insert
 import jp.ac.it_college.std.s21009.news_manager.database.record.CategoryRecord
 import jp.ac.it_college.std.s21009.news_manager.domain.enum.NewsManagerTables
@@ -48,5 +49,9 @@ class CategoryRepositoryImpl(
 
     override fun register(category: CategoryRecord) {
         categoryMapper.insert(category)
+    }
+
+    override fun delete(id: Long) {
+        categoryMapper.deleteByPrimaryKey(id)
     }
 }

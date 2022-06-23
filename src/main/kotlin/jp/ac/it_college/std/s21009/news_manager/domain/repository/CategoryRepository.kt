@@ -8,4 +8,5 @@ interface CategoryRepository {
     fun findByName(name: String): CategoryRecord?
 
     fun register(category: CategoryRecord)
+    fun delete(id: Long)
 }

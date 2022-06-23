@@ -10,7 +10,13 @@ class CategoryService(
 ) {
 
     fun register(category: CategoryRecord) {
-        categoryRepository.findByName(category.name!!)?.let { throw IllegalArgumentException("存在するカテゴリ: ${category.name}") }
+        categoryRepository.findByName(category.name!!)
+            ?.let { throw IllegalArgumentException("存在するカテゴリ: ${category.name}") }
         categoryRepository.register(category)
+    }
+
+    fun delete(id: Long) {
+        categoryRepository.findById(id) ?: throw IllegalArgumentException("存在しないカテゴリID: $id")
+        categoryRepository.delete(id)
     }
 }
