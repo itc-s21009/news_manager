@@ -19,4 +19,9 @@ class CategoryService(
         categoryRepository.findById(id) ?: throw IllegalArgumentException("存在しないカテゴリID: $id")
         categoryRepository.delete(id)
     }
+
+    fun update(id: Long, name: String) {
+        categoryRepository.findById(id) ?: throw IllegalArgumentException("存在しないカテゴリID: $id")
+        categoryRepository.updateName(id, name)
+    }
 }

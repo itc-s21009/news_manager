@@ -7,8 +7,7 @@ import jp.ac.it_college.std.s21009.news_manager.database.mapper.insert
 import jp.ac.it_college.std.s21009.news_manager.database.record.CategoryRecord
 import jp.ac.it_college.std.s21009.news_manager.domain.enum.NewsManagerTables
 import jp.ac.it_college.std.s21009.news_manager.domain.repository.CategoryRepository
-import org.mybatis.dynamic.sql.SqlBuilder.isEqualTo
-import org.mybatis.dynamic.sql.SqlBuilder.select
+import org.mybatis.dynamic.sql.SqlBuilder.*
 import org.mybatis.dynamic.sql.render.RenderingStrategies
 import org.springframework.stereotype.Repository
 
@@ -53,5 +52,14 @@ class CategoryRepositoryImpl(
 
     override fun delete(id: Long) {
         categoryMapper.deleteByPrimaryKey(id)
+    }
+
+    override fun updateName(id: Long, name: String) {
+        val updateStatement = update(NewsManagerTables.CATEGORY)
+            .set(Category.name).equalTo(name)
+            .where(Category.id, isEqualTo(id))
+            .build()
+            .render(RenderingStrategies.MYBATIS3)
+        categoryMapper.update(updateStatement)
     }
 }

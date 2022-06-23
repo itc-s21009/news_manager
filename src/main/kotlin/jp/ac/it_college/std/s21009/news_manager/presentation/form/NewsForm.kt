@@ -19,3 +19,8 @@ data class RegisterUserRequest(
 data class RegisterCategoryRequest(
     val name: String
 )
+
+data class UpdateCategoryRequest(
+    val id: Long,
+    val name: String
+)

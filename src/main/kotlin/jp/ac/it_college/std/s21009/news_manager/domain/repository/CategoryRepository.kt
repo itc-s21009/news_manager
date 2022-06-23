@@ -9,4 +9,5 @@ interface CategoryRepository {
 
     fun register(category: CategoryRecord)
     fun delete(id: Long)
+    fun updateName(id: Long, name: String)
 }
