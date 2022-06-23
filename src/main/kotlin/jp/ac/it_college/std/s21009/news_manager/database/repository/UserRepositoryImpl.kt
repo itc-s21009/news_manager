@@ -3,6 +3,7 @@ package jp.ac.it_college.std.s21009.news_manager.database.repository
 import jp.ac.it_college.std.s21009.news_manager.database.record.UsersRecord
 import jp.ac.it_college.std.s21009.news_manager.database.mapper.UsersDynamicSqlSupport.Users
 import jp.ac.it_college.std.s21009.news_manager.database.mapper.UsersMapper
+import jp.ac.it_college.std.s21009.news_manager.database.mapper.insert
 import jp.ac.it_college.std.s21009.news_manager.domain.repository.UserRepository
 import org.mybatis.dynamic.sql.SqlBuilder.select
 import org.mybatis.dynamic.sql.SqlTable
@@ -30,5 +31,9 @@ class UserRepositoryImpl(
             .build()
             .render(RenderingStrategies.MYBATIS3)
        return usersMapper.selectOne(selectStatement)
+    }
+
+    override fun register(user: UsersRecord) {
+        usersMapper.insert(user)
     }
 }

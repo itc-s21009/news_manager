@@ -4,4 +4,5 @@ import jp.ac.it_college.std.s21009.news_manager.database.record.UsersRecord
 
 interface UserRepository {
     fun find(username: String) : UsersRecord?
+    fun register(user: UsersRecord)
 }
