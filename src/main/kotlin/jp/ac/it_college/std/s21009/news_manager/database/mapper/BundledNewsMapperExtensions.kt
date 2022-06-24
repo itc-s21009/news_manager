@@ -38,7 +38,7 @@ fun BundledNewsMapper.selectByPrimaryKey(id: Long, includeUnpublished: Boolean):
         .leftJoin(Users).on(News.userId, equalTo(Users.id))
         .where(News.id, isEqualTo(id))
     if (!includeUnpublished)
-        selectStatement.where(News.publishAt, isLessThan(LocalDateTime.now()))
+        selectStatement.and(News.publishAt, isLessThan(LocalDateTime.now()))
 
     return selectOne(selectStatement.build().render(RenderingStrategies.MYBATIS3))
 }

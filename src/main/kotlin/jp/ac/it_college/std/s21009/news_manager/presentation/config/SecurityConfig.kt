@@ -29,7 +29,7 @@ class SecurityConfig(
         http.authorizeRequests {
             it
                 .mvcMatchers("/login").permitAll()
-                .mvcMatchers("/news").permitAll()
+                .mvcMatchers("/news/**").permitAll()
                 .mvcMatchers(("/admin/**")).hasAuthority(RoleType.ADMIN.toString())
                 .anyRequest().authenticated()
         }.csrf {

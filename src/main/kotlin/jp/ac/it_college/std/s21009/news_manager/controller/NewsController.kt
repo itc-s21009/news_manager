@@ -18,20 +18,26 @@ class NewsController(
 ) {
 
     @RequestMapping("/news")
-    fun getNews(@RequestParam("page", name = "page", required = false, defaultValue = "1") page: Long, authentication: Authentication?): List<BundledNewsRecord> {
+    fun getNews(
+        @RequestParam("page", name = "page", required = false, defaultValue = "1") page: Long,
+        authentication: Authentication?
+    ): List<BundledNewsRecord> {
         val isAdmin =
             authentication?.authorities?.map { RoleType.valueOf(it.authority) }?.contains(RoleType.ADMIN) ?: false
         return newsService.getList(isAdmin, page)
     }
 
     @GetMapping("/news/{id}")
-    fun getNews(@PathVariable id: Long): BundledNewsRecord {
-        return newsService.getById(id, false)
+    fun getNewsDetail(@PathVariable id: Long, authentication: Authentication?): BundledNewsRecord {
+        val isAdmin =
+            authentication?.authorities?.map { RoleType.valueOf(it.authority) }?.contains(RoleType.ADMIN) ?: false
+        return newsService.getById(id, isAdmin)
     }
 
     @PostMapping("/post")
     fun register(@RequestBody request: RegisterNewsRequest, authentication: Authentication) {
-        categoryRepository.findById(request.categoryId) ?: throw IllegalArgumentException("存在しないカテゴリID: ${request.categoryId}")
+        categoryRepository.findById(request.categoryId)
+            ?: throw IllegalArgumentException("存在しないカテゴリID: ${request.categoryId}")
         val principal = authentication.principal as NewsManagerUserDetails
         newsService.register(
             NewsRecord(
