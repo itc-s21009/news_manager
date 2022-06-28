@@ -26,6 +26,7 @@ fun BundledNewsMapper.select(includeUnpublished: Boolean, page: Long): List<Bund
         .leftJoin(Users).on(News.userId, equalTo(Users.id))
     if (!includeUnpublished)
         selectStatement.where(News.publishAt, isLessThan(LocalDateTime.now()))
+    selectStatement.orderBy(News.publishAt.descending())
     selectStatement.limit(10).offset((page - 1) * 10)
 
     return selectMany(selectStatement.build().render(RenderingStrategies.MYBATIS3))
